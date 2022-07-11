@@ -82,4 +82,12 @@ public class StartingHand extends Hand{
         this.handValue = HandRanker.startingHandRank(this.c1, this.c2, nrOpponents);
         return(this.handValue);
     }
+
+    @Override
+    public String toString() {
+        return "Cards{" +
+                "card_1=" + c1 +
+                ", card_2=" + c2 +
+                '}';
+    }
 }

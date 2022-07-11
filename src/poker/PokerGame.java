@@ -17,13 +17,13 @@
 package poker;
 
 import poker.handranking.Card;
-import java.util.HashSet;
-import java.util.List;
-import org.rosuda.JRI.Rengine;
-
+import poker.handranking.util.HandFactory;
 import poker.handranking.util.HandRanker;
 import poker.handranking.util.HandRankingException;
-import poker.handranking.util.HandFactory;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Jellen Vermeir
@@ -45,37 +45,54 @@ public class PokerGame {
         Card three_hearts = new Card(Card.SUIT_HEARTS, Card.RANK_3);
         Card four_spades = new Card(Card.SUIT_SPADES, Card.RANK_4);
         Card jack_hearts = new Card(Card.SUIT_HEARTS, Card.RANK_JACK);
-        
+        //turn and river
+        Card turn = new Card(Card.SUIT_DIAMONDS, Card.RANK_2);
+        Card river = new Card(Card.SUIT_DIAMONDS, Card.RANK_3);
+
         HashSet<Card> flop = new HashSet<>();
         flop.add(three_hearts);
         flop.add(four_spades);
         flop.add(jack_hearts);
-   
+//        flop.add(turn);
+//        flop.add(river);
+
         
-        deck.removeCard(ace_hearts); deck.removeCard(queen_hearts);
-        deck.removeCard(three_hearts); deck.removeCard(four_spades);
+        deck.removeCard(ace_hearts);
+        deck.removeCard(queen_hearts);
+
+        deck.removeCard(three_hearts);
+        deck.removeCard(four_spades);
         deck.removeCard(jack_hearts);
-        
+        deck.removeCard(turn);
+        deck.removeCard(river);
+
         List<Card> remainingCards = deck.getCards();
         List<List<Double>> weightArray = HandRanker.getUniformWeightArray();
         
         GameState gameState = new GameState();
         gameState.setFlop(flop);
+
+//        gameState.setTurn(turn);
+//        gameState.setRiver(river);
+
         Player player = new Player(ace_hearts, queen_hearts, gameState);
         
         long start = System.currentTimeMillis();
-        //player.calculateHandStrength(weightArray, 5, remainingCards);
-        player.calculateHandPotential(weightArray, 5, true, remainingCards);
+        System.out.println("******* start *******");
+//        player.calculateHandStrength(weightArray, 5, remainingCards);
+        player.calculateHandPotential(weightArray, 5, false, remainingCards);
         long end = System.currentTimeMillis();
-        System.out.println("Time: " + (end-start));
+        System.out.println("Time(ms): " + (end-start));
        
         
         System.out.println("HandStrength: " + player.getHandStrength());
         System.out.println("Positive Potential: " + player.getPositiveHandPotential());
         System.out.println("Negative Potential: " + player.getNegativeHandPotential());
         
-        //System.out.println("Handranker new Starting Hands: " + HandFactory.rankableHandCounter);
-        
+        System.out.println("HandRanker new Starting Hands: " + HandFactory.rankableHandCounter);
+
+        System.out.println("******* end *******");
+        System.out.println(ace_hearts.cardToString(ace_hearts));
         /***************************************************************************
          * *************************************************************************
          * *************************************************************************

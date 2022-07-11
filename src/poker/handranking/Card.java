@@ -53,6 +53,16 @@ public class Card implements Comparable<Card>{
                                     RANK_6, RANK_7, RANK_8, RANK_9,
                                     RANK_10, RANK_JACK, RANK_QUEEN,
                                     RANK_KING, RANK_ACE };
+
+    private static final String[] SUITS_TO_STRING = {
+            "c", "d", "h", "s"
+    };
+
+    private static final String[] RANKS_TO_STRING = {
+            "0", "1",
+            "2", "3", "4", "5", "6", "7", "8", "9",
+            "10", "J", "Q", "K", "A",
+    };
     
     // Card suit
     private final int suit;
@@ -83,6 +93,18 @@ public class Card implements Comparable<Card>{
      */
     public int getRank(){
         return this.rank;
+    }
+
+    public String cardToString(Card card) {
+        return RANKS_TO_STRING[card.getRank()] + SUITS_TO_STRING[card.getSuit()];
+    }
+
+    public String rankToString(int rankIndex) {
+        return RANKS_TO_STRING[rankIndex];
+    }
+
+    public String suitToString(int suitIndex) {
+        return SUITS_TO_STRING[suitIndex];
     }
 
     @Override
@@ -125,6 +147,6 @@ public class Card implements Comparable<Card>{
     
     @Override
     public String toString(){
-        return "[CARD suit " + this.suit + " Rank " + this.rank + "]";
+        return "[CARD suit " + SUITS_TO_STRING[this.suit] + " Rank " + RANKS_TO_STRING[this.rank] + "]";
     }
 }
